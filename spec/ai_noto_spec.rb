@@ -35,9 +35,8 @@ describe AiNoto do
     subject.twilio_client
   end
 
-
   it "sends a note as a SMS" do
-    sms_message = { from: '+19045745217', to: '+19045716868', body: 'hello' }
+    sms_message = { from: AiNoto.from_number, to: AiNoto.to_number, body: 'hello' }
     messages = double('messages', create: sms_message)
 
     client = double('twilio client')
@@ -48,5 +47,15 @@ describe AiNoto do
     expect(client.api.account.messages).to receive(:create).with(sms_message)
 
     message.send_sms!
+  end
+
+  context "Configuring twilio message params" do
+    it "reads 'from' number from yaml config" do
+      expect(AiNoto.from_number).to eq '+19045745217'
+    end
+
+    it "reads 'to' number from yaml config" do
+      expect(AiNoto.to_number).to eq "+19041112222"
+    end
   end
 end

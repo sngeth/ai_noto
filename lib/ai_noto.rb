@@ -1,14 +1,11 @@
 require 'twilio-ruby'
 require 'yaml'
-require 'byebug'
 
 module AiNoto
   ACCOUNT_SID = ENV["TWILIO_ACCOUNT_SID"]
   AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
 
-  def self.run
-    puts "Please enter your message:"
-    contents = $stdin.gets.chomp
+  def self.send(contents)
     Message.new(contents, twilio_client).send_sms!
   end
 
@@ -17,13 +14,17 @@ module AiNoto
   end
 
   def self.from_number
-    file = File.join(Dir.pwd, 'lib', 'config.yml')
+    file = File.join(Dir.pwd, 'lib', config)
     YAML.load_file(file)["from_number"]
   end
 
   def self.to_number
-    file = File.join(Dir.pwd, 'lib', 'config.yml')
+    file = File.join(Dir.pwd, 'lib', config)
     YAML.load_file(file)["to_number"]
+  end
+
+  def self.config
+    ENV['TEST'] ? 'config.test.yml' : 'config.yml'
   end
 
   class Message

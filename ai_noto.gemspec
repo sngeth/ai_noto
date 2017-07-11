@@ -25,8 +25,8 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables   << 'ainoto'
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.13"
@@ -35,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "byebug"
 
   spec.add_runtime_dependency 'twilio-ruby', '~> 5.0.0.rc26'
+  spec.add_runtime_dependency 'thor'
 end

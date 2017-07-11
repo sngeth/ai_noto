@@ -10,21 +10,6 @@ describe AiNoto do
     expect(AiNoto::VERSION).not_to be nil
   end
 
-  let(:contents) { "Hello World!" }
-
-  it "reads in a note from command line into a Message" do
-    allow(STDIN).to receive(:gets) { "Hello World!" }
-    allow_any_instance_of(AiNoto::Message).to receive(:send_sms!)
-    client = double('twilio client')
-    allow(AiNoto).to receive(:twilio_client) { client }
-
-    expect(STDOUT).to receive(:puts).with("Please enter your message:")
-    expect(AiNoto::Message).to receive(:new).with(contents, client)
-      .and_call_original
-
-    subject.run
-  end
-
   let(:account_sid) { 'ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' }
   let(:auth_token) { 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy' }
 
@@ -55,7 +40,7 @@ describe AiNoto do
     end
 
     it "reads 'to' number from yaml config" do
-      expect(AiNoto.to_number).to eq "+19041112222"
+      expect(AiNoto.to_number).to eq "+18001234567"
     end
   end
 end

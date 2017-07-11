@@ -1,9 +1,9 @@
 # AiNoto
 [![BuildStatus](https://travis-ci.org/sngeth/ai_noto.svg?branch=master)](https://travis-ci.org/sngeth/ai_noto)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ai_noto`. To experiment with that code, run `bin/console` for an interactive prompt.
+Ai Noto (Love Notes) lets you quickly send SMS messages from your CLI.
 
-TODO: Delete this and the text above, and describe your gem
+TODO: Support multiple recipients
 
 ## Installation
 
@@ -23,7 +23,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Installation
+I haven't pushed this up to RubyGems yet but you can clone the repo and
+do bundle exec rake install the gem locally. After successful
+installation `ainoto` should be an executable binstub (rbenv users may need to do
+rbenv rehash).
+
+
+### Setup your Twilio credentials in your environment
+In your .bashrc or .zshrc:
+```bash
+EXPORT TWILIO_ACCOUNT_SID='your account sid here'
+EXPORT TWILIO_AUTH_TOKEN='your auth token here'
+```
+
+### Edit config.yml.dist
+Make sure to provide a proper Twilio from_number then rename
+the sample dist file to `config.yml`
+
+### Send a new message
+> ainoto new "hello world!"
 
 ## Development
 

@@ -1,2 +1,4 @@
+twilio_account_sid: '1234'
+twilio_auth_token: '1234'
 from_number: "+19045745217"
 to_number: "+18001234567"

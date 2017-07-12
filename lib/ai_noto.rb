@@ -1,30 +1,37 @@
-require 'twilio-ruby'
-require 'yaml'
+require "twilio-ruby"
+require "yaml"
 
 module AiNoto
-  ACCOUNT_SID = ENV["TWILIO_ACCOUNT_SID"]
-  AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
-
   def self.send(contents)
     Message.new(contents, twilio_client).send_sms!
   end
 
   def self.twilio_client
-    Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
+    account_sid, auth_token = twilio_credentials
+    Twilio::REST::Client.new(account_sid, auth_token)
+  end
+
+  def self.twilio_credentials
+    config = YAML.load_file(config_file)
+
+    [config["twilio_account_sid"],
+      config["twilio_auth_token"]]
   end
 
   def self.from_number
-    file = File.join(Dir.pwd, 'lib', config)
-    YAML.load_file(file)["from_number"]
+    YAML.load_file(config_file)["from_number"]
   end
 
   def self.to_number
-    file = File.join(Dir.pwd, 'lib', config)
-    YAML.load_file(file)["to_number"]
+    YAML.load_file(config_file)["to_number"]
   end
 
   def self.config
-    ENV['TEST'] ? 'config.test.yml' : 'config.yml'
+    ENV["TEST"] ? "config.test.yml" : "config.yml"
+  end
+
+  def self.config_file
+    file = File.join(Dir.pwd, "lib", config)
   end
 
   class Message

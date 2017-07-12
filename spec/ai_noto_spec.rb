@@ -10,8 +10,11 @@ describe AiNoto do
     expect(AiNoto::VERSION).not_to be nil
   end
 
-  let(:account_sid) { 'ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' }
-  let(:auth_token) { 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy' }
+  let(:account_sid) { "1234" }
+  let(:auth_token) { "1234" }
+  let(:twilio_credentials) do
+    [account_sid, auth_token]
+  end
 
   it "sets up Twilio" do
     expect(Twilio::REST::Client).to receive(:new)
@@ -21,13 +24,16 @@ describe AiNoto do
   end
 
   it "sends a note as a SMS" do
-    sms_message = { from: AiNoto.from_number, to: AiNoto.to_number, body: 'hello' }
-    messages = double('messages', create: sms_message)
+    sms_message = { from: AiNoto.from_number,
+                    to: AiNoto.to_number,
+                    body: "hello" }
 
-    client = double('twilio client')
+    messages = double("messages", create: sms_message)
+
+    client = double("twilio client")
     allow(client).to receive_message_chain("api.account.messages") { messages }
 
-    message = AiNoto::Message.new('hello', client)
+    message = AiNoto::Message.new("hello", client)
 
     expect(client.api.account.messages).to receive(:create).with(sms_message)
 
@@ -35,8 +41,14 @@ describe AiNoto do
   end
 
   context "Configuring twilio message params" do
+    it "reads twilio credentials" do
+      expect(YAML).to receive(:load_file).with("#{Dir.pwd}/lib/config.test.yml")
+        .and_call_original
+      expect(AiNoto.twilio_credentials).to eq [account_sid, auth_token]
+    end
+
     it "reads 'from' number from yaml config" do
-      expect(AiNoto.from_number).to eq '+19045745217'
+      expect(AiNoto.from_number).to eq "+19045745217"
     end
 
     it "reads 'to' number from yaml config" do

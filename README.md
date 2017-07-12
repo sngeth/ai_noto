@@ -24,21 +24,14 @@ Or install it yourself as:
 ## Usage
 
 ### Installation
-I haven't pushed this up to RubyGems yet but you can clone the repo and
-do bundle exec rake install the gem locally. After successful
+Install via RubyGems above or clone and bundle exec rake install the gem locally. After successful
 installation `ainoto` should be an executable binstub (rbenv users may need to do
 rbenv rehash).
 
 
 ### Setup your Twilio credentials in your environment
-In your .bashrc or .zshrc:
-```bash
-EXPORT TWILIO_ACCOUNT_SID='your account sid here'
-EXPORT TWILIO_AUTH_TOKEN='your auth token here'
-```
-
-### Edit config.yml.dist
-Make sure to provide a proper Twilio from_number then rename
+Edit the `config.yml.dist` file with your Twilio credentials. Also
+make sure to provide a proper Twilio from_number then rename
 the sample dist file to `config.yml`
 
 ### Send a new message
@@ -52,7 +45,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ai_noto. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sngeth/ai_noto. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

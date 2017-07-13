@@ -8,10 +8,10 @@ require 'byebug'
 class AiNotoCLI < Thor
   include AiNoto
 
-  desc 'new "MESSAGE"', 'send a new "MESSAGE" to default person'
-  def new(message)
-    puts "Sending a message to #{AiNoto.to_number}"
-    AiNoto.send(message)
+  desc 'new [recipient] "MESSAGE"', 'send a new "MESSAGE" to recipient'
+  def new(recipient=nil, message)
+    puts "Sending a message to #{AiNoto.to_number(recipient)}"
+    AiNoto.send(recipient, message)
   end
 end
 

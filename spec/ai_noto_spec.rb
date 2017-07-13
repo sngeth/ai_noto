@@ -1,4 +1,5 @@
 require "spec_helper"
+require "byebug"
 
 describe AiNoto do
   before(:each) do
@@ -23,7 +24,17 @@ describe AiNoto do
     subject.twilio_client
   end
 
-  it "sends a note as a SMS" do
+  describe "#to_number" do
+    it "gets the default recipient" do
+      expect(AiNoto.to_number).to eq "+18001234567"
+    end
+
+    it "gets a specified recipient" do
+      expect(AiNoto.to_number("Ashley")).to eq "+18001112222"
+    end
+  end
+
+  it "sends a note as a SMS to recipieint" do
     sms_message = { from: AiNoto.from_number,
                     to: AiNoto.to_number,
                     body: "hello" }
@@ -33,7 +44,24 @@ describe AiNoto do
     client = double("twilio client")
     allow(client).to receive_message_chain("api.account.messages") { messages }
 
-    message = AiNoto::Message.new("hello", client)
+    message = AiNoto::Message.new("hello", client, nil)
+
+    expect(client.api.account.messages).to receive(:create).with(sms_message)
+
+    message.send_sms!
+  end
+
+  it "sends a note as a SMS to a specific recipieint" do
+    sms_message = { from: AiNoto.from_number,
+                    to: AiNoto.to_number("Ashley"),
+                    body: "hello" }
+
+    messages = double("messages", create: sms_message)
+
+    client = double("twilio client")
+    allow(client).to receive_message_chain("api.account.messages") { messages }
+
+    message = AiNoto::Message.new("hello", client, "Ashley")
 
     expect(client.api.account.messages).to receive(:create).with(sms_message)
 
@@ -45,6 +73,10 @@ describe AiNoto do
       expect(YAML).to receive(:load_file).with("#{Dir.pwd}/lib/config.test.yml")
         .and_call_original
       expect(AiNoto.twilio_credentials).to eq [account_sid, auth_token]
+    end
+
+    it "reads a default recipient from yaml config" do
+      expect(AiNoto.default_recipient).to eq  "+18001234567"
     end
 
     it "reads 'from' number from yaml config" do

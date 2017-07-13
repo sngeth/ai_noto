@@ -3,8 +3,6 @@
 
 Ai Noto (Love Notes) lets you quickly send SMS messages from your CLI.
 
-TODO: Support multiple recipients
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -34,7 +32,21 @@ Edit the `config.yml.dist` file with your Twilio credentials. Also
 make sure to provide a proper Twilio from_number then rename
 the sample dist file to `config.yml`
 
+
+### Set up recipients
+In `config.yml` please ensure a default_recipient is filled in
+You may also add specific recipients e.g.:
+```
+"Foo": "+18001234567"
+```
+
 ### Send a new message
+Send a message to Foo:
+> ainoto new Foo "Hello World"
+
+If no recipient is specified then it will send a message to
+`default_recipient` in config.yml
+
 > ainoto new "hello world!"
 
 ## Development

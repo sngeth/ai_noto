@@ -6,8 +6,13 @@ require "byebug"
 describe AiNotoCLI do
   let(:message) { "Hello World!" }
 
-  it "#new" do
-    expect(AiNoto).to receive(:send).with(message)
-    subject.new(message)
+  it "#new with no specific user" do
+    expect(AiNoto).to receive(:send).with(nil, message)
+    subject.new(nil, message)
+  end
+
+  it "#new with specific person" do
+    expect(AiNoto).to receive(:send).with("Ashley", message)
+    subject.new("Ashley", message)
   end
 end

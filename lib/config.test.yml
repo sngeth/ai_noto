@@ -1,4 +1,5 @@
 twilio_account_sid: '1234'
 twilio_auth_token: '1234'
 from_number: "+19045745217"
-to_number: "+18001234567"
+default_recipient: "+18001234567"
+"Ashley": "+18001112222"

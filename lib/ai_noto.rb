@@ -2,8 +2,8 @@ require "twilio-ruby"
 require "yaml"
 
 module AiNoto
-  def self.send(contents)
-    Message.new(contents, twilio_client).send_sms!
+  def self.send(recipient, contents)
+    Message.new(contents, twilio_client, recipient).send_sms!
   end
 
   def self.twilio_client
@@ -18,12 +18,16 @@ module AiNoto
       config["twilio_auth_token"]]
   end
 
+  def self.default_recipient
+    YAML.load_file(config_file)["default_recipient"]
+  end
+
   def self.from_number
     YAML.load_file(config_file)["from_number"]
   end
 
-  def self.to_number
-    YAML.load_file(config_file)["to_number"]
+  def self.to_number(recipient = nil)
+    recipient = recipient.nil? ? default_recipient : YAML.load_file(config_file)[recipient]
   end
 
   def self.config
@@ -35,16 +39,17 @@ module AiNoto
   end
 
   class Message
-    attr_accessor :contents, :twilio_client
+    attr_accessor :contents, :twilio_client, :recipient
 
-    def initialize(contents, twilio_client)
+    def initialize(contents, twilio_client, recipient)
       @contents = contents
       @twilio_client = twilio_client
+      @recipient = recipient
     end
 
     def send_sms!
       twilio_client.api.account.messages.create(from: AiNoto.from_number,
-                                                to: AiNoto.to_number,
+                                                to: AiNoto.to_number(recipient),
                                                 body: contents)
     end
   end

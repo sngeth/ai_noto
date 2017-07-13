@@ -28,16 +28,18 @@ rbenv rehash).
 
 
 ### Setup your Twilio credentials in your environment
-Edit the `config.yml.dist` file with your Twilio credentials. Also
-make sure to provide a proper Twilio from_number then rename
-the sample dist file to `config.yml`
+Run
 
+> ainoto init
+
+Then edit the file in your home dir, `.ai_noto.rc.yml`. Make sure to
+include proper Twilio credentials
 
 ### Set up recipients
-In `config.yml` please ensure a default_recipient is filled in
-You may also add specific recipients e.g.:
+In your `.ai_noto.rc.yml` please ensure a default_recipient is filled
+in. You may also add specific recipients e.g.:
 ```
-"Foo": "+18001234567"
+Foo: "+18001234567"
 ```
 
 ### Send a new message

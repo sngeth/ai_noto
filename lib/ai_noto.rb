@@ -30,12 +30,12 @@ module AiNoto
     recipient = recipient.nil? ? default_recipient : YAML.load_file(config_file)[recipient]
   end
 
-  def self.config
-    ENV["TEST"] ? "config.test.yml" : "config.yml"
-  end
-
   def self.config_file
-    file = File.join(Dir.pwd, "lib", config)
+    if ENV["TEST"]
+      File.join(Dir.pwd, "lib", "config.test.yml")
+    else
+      File.join(Dir.home, ".ai_noto.rc.yml")
+    end
   end
 
   class Message

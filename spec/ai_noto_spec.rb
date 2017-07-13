@@ -1,14 +1,9 @@
 require "spec_helper"
-require "byebug"
 
 describe AiNoto do
   before(:each) do
     stub_const("AiNoto::ACCOUNT_SID", account_sid)
     stub_const("AiNoto::AUTH_TOKEN", auth_token)
-  end
-
-  it "has a version number" do
-    expect(AiNoto::VERSION).not_to be nil
   end
 
   let(:account_sid) { "1234" }

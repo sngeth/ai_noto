@@ -3,7 +3,12 @@ require "ai_noto"
 require "ai_noto_cli"
 require "byebug"
 
+
 describe AiNotoCLI do
+  before(:each) do
+    allow(File).to receive(:exists?) { true }
+  end
+
   let(:message) { "Hello World!" }
 
   it "#new with no specific user" do

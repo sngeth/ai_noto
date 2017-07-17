@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe AiNoto do
   before(:each) do
+    allow(AiNoto).to receive(:config_file) { "#{Dir.pwd}/lib/config.test.yml" }
     stub_const("AiNoto::ACCOUNT_SID", account_sid)
     stub_const("AiNoto::AUTH_TOKEN", auth_token)
   end
@@ -10,9 +11,11 @@ describe AiNoto do
   let(:auth_token) { "1234" }
   let(:twilio_credentials) do
     [account_sid, auth_token]
+
   end
 
   it "sets up Twilio" do
+    allow(AiNoto).to receive(:config_file) { "#{Dir.pwd}/lib/config.test.yml" }
     expect(Twilio::REST::Client).to receive(:new)
       .with(account_sid, auth_token)
 
@@ -39,7 +42,7 @@ describe AiNoto do
     client = double("twilio client")
     allow(client).to receive_message_chain("api.account.messages") { messages }
 
-    message = AiNoto::Message.new("hello", client, nil)
+    message = Message.new("hello", client, nil)
 
     expect(client.api.account.messages).to receive(:create).with(sms_message)
 
@@ -56,7 +59,7 @@ describe AiNoto do
     client = double("twilio client")
     allow(client).to receive_message_chain("api.account.messages") { messages }
 
-    message = AiNoto::Message.new("hello", client, "Ashley")
+    message = Message.new("hello", client, "Ashley")
 
     expect(client.api.account.messages).to receive(:create).with(sms_message)
 

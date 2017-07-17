@@ -1,5 +1,6 @@
 require "twilio-ruby"
 require "yaml"
+require "message"
 
 module AiNoto
   def self.send(recipient, contents)
@@ -31,26 +32,6 @@ module AiNoto
   end
 
   def self.config_file
-    if ENV["TEST"]
-      File.join(Dir.pwd, "lib", "config.test.yml")
-    else
-      File.join(Dir.home, ".ai_noto.rc.yml")
-    end
-  end
-
-  class Message
-    attr_accessor :contents, :twilio_client, :recipient
-
-    def initialize(contents, twilio_client, recipient)
-      @contents = contents
-      @twilio_client = twilio_client
-      @recipient = recipient
-    end
-
-    def send_sms!
-      twilio_client.api.account.messages.create(from: AiNoto.from_number,
-                                                to: AiNoto.to_number(recipient),
-                                                body: contents)
-    end
+    File.join(Dir.home, ".ai_noto.rc.yml")
   end
 end

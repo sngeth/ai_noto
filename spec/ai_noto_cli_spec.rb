@@ -7,6 +7,7 @@ require "byebug"
 describe AiNotoCLI do
   before(:each) do
     allow(File).to receive(:exists?) { true }
+    allow(AiNoto).to receive(:config_file) { "#{Dir.pwd}/lib/config.test.yml" }
   end
 
   let(:message) { "Hello World!" }
